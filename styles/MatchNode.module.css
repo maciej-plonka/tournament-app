@@ -1,0 +1,32 @@
+.matchNode {
+    display: flex;
+    flex-direction: row;
+}
+
+.matchNode > * {
+    padding: 16px;
+}
+
+.previousMatches {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.currentMatch {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.team {
+    border: 1px solid black;
+    margin: 4px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    width: 150px;
+    min-height: 36px;
+}

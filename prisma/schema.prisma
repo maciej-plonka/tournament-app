@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Tournament {
+  id           Int  @id @default(autoincrement())
+  title        String
+  winnerTeam   Team?   @relation(fields: [winnerTeamId], references: [id])
+  winnerTeamId Int?
+  matches Match[]
+}
+
+model Match {
+  id           Int  @id @default(autoincrement())
+  tournament Tournament @relation(fields: [tournamentId], references: [id])
+  tournamentId Int
+  nextMatch    Match?             @relation(fields: [nextMatchId], references: [id])
+  nextMatchId  Int?
+  participants MatchParticipant[]
+  match        Match[]            @relation("MatchToMatch")
+}
+
+model MatchParticipant {
+  id      Int  @id @default(autoincrement())
+  match   Match   @relation(fields: [matchId], references: [id])
+  matchId Int
+  team    Team    @relation(fields: [teamId], references: [id])
+  teamId  Int
+  winner  Boolean @default(false)
+}
+
+model Team {
+  id             Int  @id @default(autoincrement())
+  name           String
+  participations MatchParticipant[]
+  tournaments     Tournament[]
+  teamMembers    TeamMember[]
+}
+
+model TeamMember {
+  id       Int  @id @default(autoincrement())
+  team     Team   @relation(fields: [teamId], references: [id])
+  teamId   Int
+  player   Player @relation(fields: [playerId], references: [id])
+  playerId Int
+}
+
+model Player {
+  id          Int  @id @default(autoincrement())
+  name        String
+  teams TeamMember[]
+}
