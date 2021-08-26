@@ -2,3 +2,5 @@ node_modules
 .env
 /prisma/database
 /prisma/migrations
+*.iml
+.idea
