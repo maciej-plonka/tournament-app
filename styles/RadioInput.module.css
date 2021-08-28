@@ -1,0 +1,15 @@
+.wrapper {
+    @apply w-full flex flex-row;
+}
+
+.singleInput {
+    @apply py-1 px-2 border border-gray-300 rounded cursor-pointer
+}
+
+.singleInput + .singleInput {
+    @apply ml-2
+}
+
+.singleInput.active {
+    @apply bg-green-500 border-green-500 text-white font-bold
+}

@@ -1,27 +1,145 @@
-import {NextPage} from "next";
-import {FormEvent, useState} from "react";
+import {Player} from "@prisma/client";
+import {GetServerSideProps, NextPage} from "next";
+import {FormEvent, useCallback, useEffect, useMemo, useState} from "react";
+import {prisma} from "../../server/prisma";
+import MultiSelect from "react-multi-select-component";
+import {Option} from "react-multi-select-component/dist/lib/interfaces";
+import {isNotNull} from "../../utils/isNotNull";
+import {RadioInput} from "../../components/RadioInput";
+import {generateAvailableTeamSizes} from "../../shared/tournament/generateAvailableTeamSizes";
+import {isTitleValid, isValidNumberOfPlayers} from "../../shared/tournament/validators";
+import {InputError} from "../../components/InputError";
 
-const NewTournament: NextPage = () => {
+export const getServerSideProps: GetServerSideProps<NewTournamentProps> = async (ctx) => {
+    return {
+        props: {
+            availablePlayers: await prisma.player.findMany()
+        }
+    }
+}
+
+
+function mapPlayerToSelectOption(player: Player) {
+    return {
+        value: player.id,
+        label: player.name
+    }
+}
+
+function useNewTournament(availablePlayers: ReadonlyArray<Player>) {
     const [title, setTitle] = useState('')
+    const [players, setPlayers] = useState<ReadonlyArray<Player>>([])
+    const [teamSize, setTeamSize] = useState<number>(1);
+
+    const selectedPlayers = useMemo(() => players.map(mapPlayerToSelectOption), [players])
+    const allPlayers = useMemo(() => availablePlayers.map(mapPlayerToSelectOption), [availablePlayers]);
+
+    const availableTeamSizes = useMemo(() => generateAvailableTeamSizes(players.length), [players]);
+
+    const errors = useMemo(() => {
+        return {
+            ...!isTitleValid(title) && {title: 'Invalid title'},
+            ...!isValidNumberOfPlayers(players.length) && {players: 'Invalid number of players'},
+            ...(teamSize === 0) && {playersPerTeam: 'Specify players per team'}
+        }
+    }, [title, players, teamSize]);
+    const handleNewPlayersSelection = useCallback((options: Option[]) => {
+        const newSelectedPlayers = options
+            .map(it => availablePlayers.find(player => player.id === it.value))
+            .filter(isNotNull)
+        setPlayers(newSelectedPlayers)
+    }, [availablePlayers])
+
+    async function create(): Promise<string | undefined> {
+        try {
+            const response = await fetch('/api/tournament/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({title, players, teamSize})
+            })
+            return (await response.json())?.message
+        } catch (error) {
+            console.error(error)
+            return "Error: " + error
+        }
+    }
+
+    return {
+        fields: {
+            title,
+            selectedPlayers,
+            allPlayers,
+            availableTeamSizes,
+            teamSize,
+            errors,
+        },
+        actions: {
+            updateTitle: setTitle,
+            updateTeamSize: setTeamSize,
+            handleNewPlayersSelection,
+            create,
+        }
+    }
+}
+
+interface NewTournamentProps {
+    availablePlayers: ReadonlyArray<Player>
+}
+
+const NewTournament: NextPage<NewTournamentProps> = ({availablePlayers}) => {
+    const {actions, fields} = useNewTournament(availablePlayers);
+
+    const hasErrors = useMemo(() => Object.keys(fields.errors).length > 0, [fields.errors]);
 
     async function handleSubmit(event: FormEvent) {
         event.preventDefault()
+        if (hasErrors) return;
+        const error = await actions.create()
+        if(error) {
+            alert(error)
+        }else {
+            window.location.href = '/';
+        }
     }
 
     return (
         <div className="container mx-auto py-4">
             <div className="shadow-md rounded-xl p-4">
                 <h1 className="text-3xl text-gray-700">New tournament</h1>
-                <form className="mt-4" onSubmit={handleSubmit}>
-                    <label htmlFor="title-input">Title</label> <br/>
-                    <input
-                        id="title-input"
-                        className=" border border-gray-300 rounded px-2 py-1"
-                        value={title}
-                        onChange={event => setTitle(event.target.value)}/>
+                <form className="mt-4 flex flex-col" onSubmit={handleSubmit}>
+                    <div className="w-full sm:w-1/2 lg:1/4 mb-4 flex flex-col">
+                        <label htmlFor="title-input">Title</label>
+                        <input
+                            id="title-input"
+                            className="w-full border border-gray-300 rounded px-2 py-1"
+                            value={fields.title}
+                            onChange={event => actions.updateTitle(event.target.value)}/>
+                        {fields.errors.title && (<InputError message={fields.errors.title}/>)}
+                    </div>
+                    <div className="w-full sm:w-1/2 lg:1/4 mb-4">
+                        <label>Players</label>
+                        <MultiSelect
+                            className={"w-full"}
+                            labelledBy={"Players"}
+                            value={fields.selectedPlayers}
+                            onChange={actions.handleNewPlayersSelection}
+                            options={fields.allPlayers}
+                        />
+                        {fields.errors.players && (<InputError message={fields.errors.players}/>)}
+                    </div>
 
+                    <div className="w-full sm:w-1/2 lg:1/4 mb-4">
+                        <label>Players per team</label>
+                        <RadioInput
+                            value={fields.teamSize}
+                            values={fields.availableTeamSizes}
+                            onValueChanged={actions.updateTeamSize}/>
+                    </div>
                     <button
-                        className="block px-3 py-1.5 rounded bg-green-500 text-white"
+                        className="block mx-auto sm:mx-0 w-36 px-3 py-1.5 rounded  bg-green-500 disabled:bg-gray-300  text-white"
+                        disabled={hasErrors}
                         type="submit">
                         Create
                     </button>
@@ -29,6 +147,7 @@ const NewTournament: NextPage = () => {
             </div>
         </div>
     )
-
 }
+
+
 export default NewTournament
