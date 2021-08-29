@@ -9,6 +9,8 @@ import {RadioInput} from "../../components/RadioInput";
 import {generateAvailableTeamSizes} from "../../shared/tournament/generateAvailableTeamSizes";
 import {isTitleValid, isValidNumberOfPlayers} from "../../shared/tournament/validators";
 import {InputError} from "../../components/InputError";
+import axios from "axios";
+import {CreateTournamentResponse} from "../../shared/tournament/responses";
 
 export const getServerSideProps: GetServerSideProps<NewTournamentProps> = async (ctx) => {
     return {
@@ -50,19 +52,13 @@ function useNewTournament(availablePlayers: ReadonlyArray<Player>) {
         setPlayers(newSelectedPlayers)
     }, [availablePlayers])
 
-    async function create(): Promise<string | undefined> {
+    async function create(): Promise<CreateTournamentResponse> {
         try {
-            const response = await fetch('/api/tournament/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({title, players, teamSize})
-            })
-            return (await response.json())?.message
+            const response = await axios.post('/api/tournament/create', {title, players, teamSize});
+            return response.data as CreateTournamentResponse
         } catch (error) {
             console.error(error)
-            return "Error: " + error
+            return {type: "error", message: error}
         }
     }
 
@@ -96,11 +92,14 @@ const NewTournament: NextPage<NewTournamentProps> = ({availablePlayers}) => {
     async function handleSubmit(event: FormEvent) {
         event.preventDefault()
         if (hasErrors) return;
-        const error = await actions.create()
-        if(error) {
-            alert(error)
-        }else {
-            window.location.href = '/';
+        const result = await actions.create()
+        switch (result.type) {
+            case "error":
+                alert(result.message);
+                break;
+            case "success":
+                window.location.href = `/tournament/${result.tournament.id}`
+                break;
         }
     }
 
