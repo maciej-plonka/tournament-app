@@ -1,4 +1,3 @@
-import {useMemo} from "react";
 import classes from "../styles/RadioInput.module.css"
 
 interface RadioInputProps {
@@ -30,13 +29,4 @@ function prepareClasses(checked: boolean) {
         classes.singleInput,
         checked && classes.active
     ].filter(it => !!it).join(' ')
-}
-
-function generateSequence(from: number, to: number): number[] {
-    if (from > to) {
-        throw new Error(`Range boundaries should be valid, was: ${from} - ${to}`)
-    }
-    const array = [];
-    while (from <= to) array.push(from++);
-    return array;
 }
