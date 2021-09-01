@@ -9,7 +9,8 @@
     "lint": "next lint",
     "prisma-generate": "prisma generate",
     "prisma-pull": "prisma db pull",
-    "prisma-format": "prisma format"
+    "prisma-format": "prisma format",
+    "test": "jest --watch"
   },
   "dependencies": {
     "@prisma/client": "^2.29.1",
@@ -20,12 +21,18 @@
     "react-multi-select-component": "^4.0.6"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
     "@types/react": "17.0.19",
     "autoprefixer": "^10.3.1",
+    "babel-jest": "^27.1.0",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.1.0",
     "postcss": "^8.3.6",
     "prisma": "^2.29.1",
+    "react-test-renderer": "^17.0.2",
     "tailwindcss": "^2.2.7",
     "typescript": "^4.3.5"
   }

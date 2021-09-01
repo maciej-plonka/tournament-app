@@ -1,15 +1,15 @@
 import {Player} from "@prisma/client";
 import {GetServerSideProps, NextPage} from "next";
 import {FormEvent, useCallback, useEffect, useMemo, useState} from "react";
-import {prisma} from "../../server/prisma";
 import MultiSelect from "react-multi-select-component";
 import {Option} from "react-multi-select-component/dist/lib/interfaces";
 import {isNotNull} from "../../utils/isNotNull";
-import {RadioInput} from "../../components/RadioInput";
+import {RadioInput} from "@/components/RadioInput";
+import {prisma} from "../../server/prisma";
+import {InputError} from "@/components/InputError";
+import axios from "axios";
 import {generateAvailableTeamSizes} from "../../shared/tournament/generateAvailableTeamSizes";
 import {isTitleValid, isValidNumberOfPlayers} from "../../shared/tournament/validators";
-import {InputError} from "../../components/InputError";
-import axios from "axios";
 import {CreateTournamentResponse} from "../../shared/tournament/responses";
 
 export const getServerSideProps: GetServerSideProps<NewTournamentProps> = async (ctx) => {
