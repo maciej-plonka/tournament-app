@@ -1,7 +1,14 @@
 export function generateAvailableTeamSizes(numberOfPlayers: number): number[] {
+    if (numberOfPlayers % 2 != 0) {
+        return [];
+    }
     const teamSizes: number[] = [];
     for (let teamSize = 1; teamSize <= Math.floor(numberOfPlayers / 2); teamSize++) {
-        if (spreadableToMatches(numberOfPlayers / teamSize)) {
+        if (numberOfPlayers % teamSize != 0) {
+            continue;
+        }
+        const teams = Math.floor(numberOfPlayers / teamSize)
+        if (canBeSpreadToValidNumberOfMatches(teams)) {
             teamSizes.push(teamSize);
         }
     }
@@ -9,17 +16,27 @@ export function generateAvailableTeamSizes(numberOfPlayers: number): number[] {
 }
 
 export function canGenerateAvailableTeamSizes(numberOfPlayers: number): boolean {
+    if (numberOfPlayers % 2 != 0) {
+        return false;
+    }
     for (let teamSize = 1; teamSize <= Math.floor(numberOfPlayers / 2); teamSize++) {
-        if (spreadableToMatches(numberOfPlayers / teamSize)) {
+        if (numberOfPlayers % teamSize != 0) {
+            continue;
+        }
+        const teams = Math.floor(numberOfPlayers / teamSize)
+        if (canBeSpreadToValidNumberOfMatches(teams)) {
             return true;
         }
     }
     return false;
 }
 
-function spreadableToMatches(players: number): boolean {
-    if (players < 2) return false;
-    let required = 2;
-    while (players > required) required *= required;
-    return players === required;
+
+function canBeSpreadToValidNumberOfMatches(teams: number) {
+    if (teams < 2 || teams % 2 != 0) {
+        return false;
+    }
+    while (teams % 2 == 0 && teams > 2) teams /= 2;
+    return teams % 2 == 0;
 }
+
