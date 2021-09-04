@@ -1,4 +1,4 @@
-import {generateAvailableTeamSizes} from "./generateAvailableTeamSizes";
+import {canGenerateAvailableTeamSizes, generateAvailableTeamSizes} from "./availableTeamSizes";
 
 describe('generateAvailableTeamSizes', () => {
     it('should return [ ] for 0 players', () => {
@@ -69,5 +69,47 @@ describe('generateAvailableTeamSizes', () => {
 });
 
 describe('canGenerateAvailableTeamSizes', () => {
-    it('', () => {})
+    it('should return false for 0 players', () => {
+        expect(canGenerateAvailableTeamSizes(0)).toBe(false)
+    })
+
+    it('should return false for 1 players', () => {
+        expect(canGenerateAvailableTeamSizes(1)).toBe(false)
+    })
+
+    it('should return true for 2 players', () => {
+        expect(canGenerateAvailableTeamSizes(2)).toBe(true)
+    })
+
+    it('should return false for 3 players', () => {
+        expect(canGenerateAvailableTeamSizes(3)).toBe(false)
+    })
+
+    it('should return true for 4 players', () => {
+        expect(canGenerateAvailableTeamSizes(4)).toBe(true)
+    })
+
+    it('should return false for 5 players', () => {
+        expect(canGenerateAvailableTeamSizes(5)).toBe(false)
+    })
+
+    it('should return true for 6 players', () => {
+        expect(canGenerateAvailableTeamSizes(6)).toBe(true)
+    })
+
+    it('should return false for 7 players', () => {
+        expect(canGenerateAvailableTeamSizes(7)).toBe(false)
+    })
+
+    it('should return true for 8 players', () => {
+        expect(canGenerateAvailableTeamSizes(8)).toBe(true)
+    })
+
+    it('should return false for 9 players', () => {
+        expect(canGenerateAvailableTeamSizes(9)).toBe(false)
+    })
+
+    it('should return true for 10 players', () => {
+        expect(canGenerateAvailableTeamSizes(10)).toBe(true)
+    })
 });

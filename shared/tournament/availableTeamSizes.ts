@@ -33,7 +33,7 @@ export function canGenerateAvailableTeamSizes(numberOfPlayers: number): boolean 
 
 
 function canBeSpreadToValidNumberOfMatches(teams: number) {
-    if (teams < 2 || teams % 2 != 0) {
+    if (teams < 2) {
         return false;
     }
     while (teams % 2 == 0 && teams > 2) teams /= 2;
