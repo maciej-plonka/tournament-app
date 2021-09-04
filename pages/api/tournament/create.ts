@@ -1,6 +1,6 @@
 import {Match, Player, Team, Tournament} from "@prisma/client";
 import {NextApiRequest, NextApiResponse} from "next";
-import {prisma} from "../../../server/prisma";
+import {prisma} from "../../../server/repository/prisma";
 import {isTitleValid, isValidNumberOfPlayers} from "../../../shared/tournament/validators";
 import {randomizeArray} from "../../../utils/randomizeArray";
 import {createBatches} from "../../../utils/createBatches";

@@ -2,12 +2,12 @@ import {Tournament} from '@prisma/client'
 import type {GetServerSideProps, NextPage} from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
-import {prisma} from "../server/prisma";
+import {getAllTournaments} from "../server/repository";
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     return {
         props: {
-            tournaments: await prisma.tournament.findMany()
+            tournaments: await getAllTournaments()
         }
     }
 }

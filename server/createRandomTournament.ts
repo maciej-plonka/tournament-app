@@ -1,11 +1,12 @@
 import {Match, Player, Team, Tournament} from "@prisma/client";
-import {prisma} from "./prisma";
+import {prisma} from "./repository/prisma";
 import {createBatches} from "../utils/createBatches";
 import {randomizeArray} from "../utils/randomizeArray";
 import {sortBy} from "../utils/sortBy";
+import {createTournament} from "./repository";
 
 export async function createRandomTournament(title: string, players: ReadonlyArray<Player>, teamSize: number): Promise<Tournament> {
-    const savedTournament = await prisma.tournament.create({data: {title}})
+    const savedTournament = await createTournament(title)
     const lastMatches = await createMatchTree(savedTournament, players.length / teamSize)
     const batchedPlayers = createBatches(randomizeArray(players), teamSize);
 

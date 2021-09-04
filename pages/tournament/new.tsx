@@ -5,7 +5,7 @@ import MultiSelect from "react-multi-select-component";
 import {Option} from "react-multi-select-component/dist/lib/interfaces";
 import {isNotNull} from "../../utils/isNotNull";
 import {RadioInput} from "@/components/RadioInput";
-import {prisma} from "../../server/prisma";
+import {prisma} from "../../server/repository/prisma";
 import {InputError} from "@/components/InputError";
 import axios from "axios";
 import {generateAvailableTeamSizes} from "../../shared/tournament/generateAvailableTeamSizes";
