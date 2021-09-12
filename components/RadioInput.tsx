@@ -12,6 +12,7 @@ export function RadioInput({values, value, onValueChanged}: RadioInputProps) {
             {values.map(it => (
                 <label key={`playersPerTeam_${it}`} className={prepareClasses(it === value)}>
                     <input
+                        aria-label={it + ''}
                         className="hidden"
                         type="radio"
                         value={it}

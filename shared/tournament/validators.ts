@@ -1,4 +1,4 @@
-import {canGenerateAvailableTeamSizes, generateAvailableTeamSizes} from "./generateAvailableTeamSizes";
+import {canGenerateAvailableTeamSizes} from "./availableTeamSizes";
 
 export function isTitleValid(title: string): boolean {
     return !!title && title.trim().length > 0
