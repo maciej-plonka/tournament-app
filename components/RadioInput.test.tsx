@@ -54,5 +54,20 @@ describe('RadioInput', () => {
         expect(selectedValueElement).toBeChecked()
     })
 
+    it('rerenders when selected value has changed', () => {
+        const values = [1, 2, 3];
+        let selectedValue = 1;
+        const updateSelectedValue = (value: number) => selectedValue = value
+        const {rerender} = render(<RadioInput values={values} value={selectedValue} onValueChanged={updateSelectedValue}/>)
+
+        expect(screen.getByLabelText('1')).toBeChecked()
+
+        fireEvent.click(screen.getByLabelText('2'))
+
+        rerender(<RadioInput values={values} value={selectedValue} onValueChanged={updateSelectedValue}/>)
+
+        expect(screen.getByLabelText('2')).toBeChecked()
+    })
+
 })
 
