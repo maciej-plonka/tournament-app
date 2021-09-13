@@ -1,7 +1,7 @@
 import {Match, Player, Team, Tournament} from "@prisma/client";
 import {createBatches} from "../utils/createBatches";
 import {randomizeArray} from "../utils/randomizeArray";
-import {sortBy} from "../utils/sortBy";
+import {sortByKey} from "../utils/sort";
 import {createMatch, createMatchParticipant, createTeam, createTeamMember, createTournament} from "./repository";
 
 export async function createRandomTournament(title: string, players: ReadonlyArray<Player>, teamSize: number): Promise<Tournament> {
@@ -26,7 +26,7 @@ async function createTeamsAndAssignItToMatch(match: Match, teamOnePlayers: Reado
 }
 
 async function createTeamForPlayers(players: ReadonlyArray<Player>): Promise<Team> {
-    const name = sortBy(players, player => player.id).map(it => it.name).join(' ');
+    const name = sortByKey(players, "id").map(it => it.name).join(' ');
     const team = await createTeam(name);
     await Promise.all(players.map(player => createTeamMember(team.id, player.id)));
     return team;
