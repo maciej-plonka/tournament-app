@@ -1,1 +1,3 @@
-export * from "./tournamentRepository"
+export * from "./tournament"
+export * from "./team"
+export * from "./match"

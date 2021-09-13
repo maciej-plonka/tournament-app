@@ -1,6 +1,5 @@
 import {generateTree, MatchTreeNode, MatchWithTeams} from "./matchTree";
-import {prisma} from "./repository/prisma";
-import {getTournamentById} from "./repository";
+import {getAllMatchesWithParticipatingTeamsInTournament, getTournamentById} from "./repository";
 
 export interface FullTournament {
     id: number,
@@ -8,19 +7,8 @@ export interface FullTournament {
     finalMatch: MatchTreeNode
 }
 
-async function prepareMatchesWithTeams(tournamentId: number): Promise <ReadonlyArray<MatchWithTeams>> {
-    const matches = await prisma.match.findMany({
-        where: {
-            tournamentId: tournamentId,
-        },
-        include: {
-            participants: {
-                include: {
-                    team: true
-                }
-            }
-        }
-    })
+async function prepareMatchesWithTeams(tournamentId: number): Promise<ReadonlyArray<MatchWithTeams>> {
+    const matches = await getAllMatchesWithParticipatingTeamsInTournament(tournamentId)
     return matches.map(match => ({
         id: match.id,
         nextMatchId: match.nextMatchId,

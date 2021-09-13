@@ -5,7 +5,7 @@
 import React from 'react'
 import {fireEvent, render, screen} from '@testing-library/react'
 import NewTournament from './new'
-import {Player, Tournament} from "@prisma/client";
+import {Player} from "@prisma/client";
 
 describe('NewTournament', () => {
     it('renders a heading', () => {

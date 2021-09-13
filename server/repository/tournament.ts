@@ -13,7 +13,6 @@ export async function getAllTournaments(): Promise<ReadonlyArray<Tournament>> {
     return prisma.tournament.findMany()
 }
 
-
 export async function createTournament(title: string): Promise<Tournament> {
     return prisma.tournament.create({
         data: {title}
