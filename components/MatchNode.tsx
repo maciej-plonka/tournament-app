@@ -1,9 +1,11 @@
 import {MatchTreeNode} from "../server/matchTree";
 import classes from "../styles/MatchNode.module.css";
 import React from "react";
+import {useMatchTreeContext} from "../context/MatchTreeContext";
 
 export function MatchNode({node, level = 1}: { node: MatchTreeNode, level?: number }) {
     const [firstTeam, secondTeam] = node.teams;
+    const {chooseWinner} = useMatchTreeContext()
     return (
         <div className={classes.matchNode}>
             {!!node.previousMatches.length && (

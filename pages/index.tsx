@@ -3,6 +3,7 @@ import type {GetServerSideProps, NextPage} from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import {getAllTournaments} from "../server/repository";
+import {MatchTreeContext} from "../context/MatchTreeContext";
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     return {

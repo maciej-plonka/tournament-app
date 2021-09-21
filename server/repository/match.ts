@@ -1,6 +1,17 @@
 import {Match, MatchParticipant} from "@prisma/client";
 import {prisma} from "./prisma";
 
+export async function getMatchWithParticipantsById(id: number) {
+    return prisma.match.findFirst({
+        where: {
+            id
+        },
+        include: {
+            participants: true
+        }
+    })
+}
+
 export async function createMatch(tournamentId: number, nextMatchId: number | null): Promise<Match> {
     return prisma.match.create({
         data: {
@@ -17,6 +28,15 @@ export async function createMatchParticipant(matchId: number, teamId: number, wi
             teamId,
             winner
         }
+    })
+}
+
+export async function saveMatchParticipant(participant: MatchParticipant) {
+    return prisma.matchParticipant.update({
+        where: {
+            id: participant.id
+        },
+        data: participant
     })
 }
 

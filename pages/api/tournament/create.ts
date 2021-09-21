@@ -1,15 +1,8 @@
-import {Match, Player, Team, Tournament} from "@prisma/client";
+import {Player, Tournament} from "@prisma/client";
 import {NextApiRequest, NextApiResponse} from "next";
-import {prisma} from "../../../server/repository/prisma";
 import {isTitleValid, isValidNumberOfPlayers} from "../../../shared/tournament/validators";
-import {randomizeArray} from "../../../utils/randomizeArray";
-import {createBatches} from "../../../utils/createBatches";
 import {createRandomTournament} from "../../../server/createRandomTournament";
-import {CreateTournamentResponse} from "../../../shared/tournament/responses";
-
-interface ErrorMessage {
-    message: string
-}
+import {ApiResponse, createErrorResponse, createSuccessResponse} from "../../../shared/apiResponse";
 
 interface CreateTournament {
     title: string,
@@ -17,18 +10,18 @@ interface CreateTournament {
     teamSize: number
 }
 
-export default async function createTournament(req: NextApiRequest, res: NextApiResponse<CreateTournamentResponse>) {
+export default async function createTournament(req: NextApiRequest, res: NextApiResponse<ApiResponse<Tournament>>) {
     if (req.method !== 'POST') {
-        return res.status(405).json({type: 'error', message: "Method not allowed"});
+        return res.status(405).json(createErrorResponse("Method not allowed"));
     }
     const createTournament = req.body as CreateTournament
     const validationError = validateCreateTournament(createTournament);
     if (validationError) {
-        return res.status(400).json({type: 'error', message: validationError})
+        return res.status(400).json(createErrorResponse(validationError))
     }
     const {title, players, teamSize} = createTournament;
     const tournament = await createRandomTournament(title, players, teamSize)
-    return res.status(200).json({type: 'success', tournament})
+    return res.status(200).json(createSuccessResponse(tournament))
 }
 
 
