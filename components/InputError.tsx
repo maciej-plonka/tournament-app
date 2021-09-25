@@ -1,11 +1,17 @@
 interface InputErrorProps {
-    message: string
+    messages: string[]
 }
 
-export function InputError({message}: InputErrorProps) {
+export function InputError({messages}: InputErrorProps) {
+    if(!messages.length)
+        return <></>
     return (
-        <div className={"px-2 py-1 bg-red-100 text-red-600"}>
-            {message}
-        </div>
+        <ul className={"mt-0.5 px-2 py-1 text-red-400"}>
+            {messages.map(message => (
+                <li key={message}>
+                    {message}
+                </li>
+            ))}
+        </ul>
     )
 }

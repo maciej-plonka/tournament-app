@@ -10,7 +10,7 @@
     "prisma-generate": "prisma generate",
     "prisma-pull": "prisma db pull",
     "prisma-format": "prisma format",
-    "test": "jest --watch"
+    "test": "jest --watchAll"
   },
   "dependencies": {
     "@prisma/client": "^2.29.1",
@@ -18,7 +18,7 @@
     "next": "11.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-multi-select-component": "^4.0.6"
+    "react-select": "^5.0.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",

@@ -3,9 +3,8 @@
  */
 
 import React from 'react'
-import {fireEvent, render, screen} from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
 import NewTournament from './new'
-import {Player} from "@prisma/client";
 
 describe('NewTournament', () => {
     it('renders a heading', () => {
@@ -30,25 +29,6 @@ describe('NewTournament', () => {
             name: /Create/i
         })
         expect(button).toBeDisabled()
-    })
-
-    it('renders all available players after clicking on player select', async() => {
-        const availablePlayers:Player[] = [
-            {id: 1, name: "First"},
-            {id: 2, name: "Second"},
-            {id: 2, name: "Last"},
-        ];
-
-        render(<NewTournament availablePlayers={availablePlayers} />);
-
-        fireEvent.click(screen.getByText('Select...'))
-
-        for(const player of availablePlayers) {
-            const option = screen.getByRole('option',{
-                name: new RegExp(player.name)
-            })
-            expect(option).toBeInTheDocument()
-        }
     })
 })
 
