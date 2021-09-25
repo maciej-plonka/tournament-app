@@ -98,17 +98,15 @@ const NewTournament: NextPage<NewTournamentProps> = ({availablePlayers}) => {
                 <form className="mt-4 flex flex-col" {...formProps}>
                     <div className="w-full sm:w-1/2 lg:1/4 mb-4 flex flex-col">
                         <Input
-                            id={"title"}
-                            label={"Title"}
-                            {...titleProps}
-                        />
+                            id="title"
+                            label="Title"
+                            {...titleProps} />
                     </div>
                     <div className="w-full sm:w-1/2 lg:1/4 mb-4">
                         <MultiSelect
                             id="players"
                             label="Players"
-                            {...playersProps}
-                        />
+                            {...playersProps} />
                     </div>
 
                     <div className="w-full sm:w-1/2 lg:1/4 mb-4">
@@ -118,7 +116,7 @@ const NewTournament: NextPage<NewTournamentProps> = ({availablePlayers}) => {
                             {...teamSizeProps} />
                     </div>
                     <button
-                        className="block mx-auto sm:mx-0 w-36 px-3 py-1.5 rounded  bg-green-500 disabled:bg-gray-300  text-white"
+                        className="block mx-auto sm:mx-0 w-36 px-3 py-1.5 rounded bg-green-500 disabled:bg-gray-300 text-white"
                         disabled={!canSubmit}
                         type="submit">
                         Create
