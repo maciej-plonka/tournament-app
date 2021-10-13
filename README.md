@@ -2,16 +2,24 @@
 
 Tournament app is a proof of concept application created to learn Next.js.
 
+## Requirements
+* Database:  [PostgreSQL](https://www.postgresql.org/download/) 
+* Node:  [node](https://nodejs.org/en/)
+
 ## Installation
 
-Use the Node Package Manager bundled together with Node [node](https://nodejs.org/en/).
-
+### Install node_modules
+Use the Node Package Manager bundled together with Node
 ```npm
 npm install
-
-npm run dev
 ```
 
+### Create database in postgres
+
+### Create `.env` file in project's root directory
+```.env
+DATABASE_URL=<url to your postgresql database>
+```
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
