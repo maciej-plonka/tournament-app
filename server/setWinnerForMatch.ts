@@ -1,4 +1,4 @@
-import {getMatchWithParticipantsById, saveMatchParticipant} from "./repository";
+import {createMatchParticipant, getMatchWithParticipantsById, saveMatchParticipant} from "./repository";
 import {SetMatchWinner} from "../shared/match/commands";
 
 
@@ -19,4 +19,8 @@ export async function setWinnerForMatch({matchId, teamId}: SetMatchWinner): Prom
         ...winningParticipant,
         winner: true
     })
+
+    if (match.nextMatchId) {
+        await createMatchParticipant(match.nextMatchId, teamId);
+    }
 }

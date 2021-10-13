@@ -1,8 +1,7 @@
 import {GetServerSideProps, NextPage} from "next";
 import {FullTournament, prepareFullTournament} from "../../server/fullTournament";
 import React from "react";
-import {MatchNode} from "@/components/MatchNode";
-import {MatchTreeContext} from "../../context/MatchTreeContext";
+import {TournamentTree} from "@/components/tournament";
 
 export const getServerSideProps: GetServerSideProps<Props, { id: string }> = async (ctx) => {
     const id = ctx?.params?.id ?? '';
@@ -27,11 +26,7 @@ const TournamentPage: NextPage<Props> = ({fullTournament}) => {
         <>
             <div>{fullTournament.id}</div>
             <div>{fullTournament.title}</div>
-            <MatchTreeContext>
-                {loading => !loading
-                    ? <MatchNode node={fullTournament.finalMatch}/>
-                    : <div>Loading...</div>}
-            </MatchTreeContext>
+            <TournamentTree tournament={fullTournament} />
         </>
 
     )

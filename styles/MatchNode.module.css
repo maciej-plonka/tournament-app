@@ -17,7 +17,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-
 }
 
 .team {
@@ -29,4 +28,8 @@
     overflow: hidden;
     width: 150px;
     min-height: 36px;
+}
+
+.team.winner {
+    @apply bg-green-400;
 }
