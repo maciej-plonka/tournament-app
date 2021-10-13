@@ -8,7 +8,7 @@ import {InputError} from "@/components/InputError";
 
 describe('InputError', () => {
     it('renders error message', () => {
-        render(<InputError messages={["Error message"]} /> )
+        render(<InputError messages={["Error message"]}/>)
 
         const errorMessageElement = screen.getByText(/Error message/i)
 

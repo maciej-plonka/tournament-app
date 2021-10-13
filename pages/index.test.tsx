@@ -30,16 +30,11 @@ describe('Home', () => {
 
     it('renders list of tournaments with proper links', () => {
         const tournaments = [
-            {id: 1, title: "First", winnerTeamId: null},
-            {id: 2, title: "Second", winnerTeamId: null}
+            {id: 1, title: "Tournament title", winnerTeamId: null},
         ]
         render(<Home tournaments={tournaments}/>);
-        for (const tournament of tournaments) {
-            const link = screen.getByRole('link', {
-                name: new RegExp(tournament.title)
-            })
-            expect(link.getAttribute('href')).toBe(`/tournament/${tournament.id}`)
-        }
+        const firstLink = screen.getByRole('link', {name: /Tournament title/i})
+        expect(firstLink.getAttribute('href')).toBe('/tournament/1')
     })
 })
 

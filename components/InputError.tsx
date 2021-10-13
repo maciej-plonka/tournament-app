@@ -3,7 +3,7 @@ interface InputErrorProps {
 }
 
 export function InputError({messages}: InputErrorProps) {
-    if(!messages.length)
+    if (!messages.length)
         return <></>
     return (
         <ul className={"mt-0.5 px-2 py-1 text-red-400"}>

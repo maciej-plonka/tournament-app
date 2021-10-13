@@ -8,7 +8,7 @@ import NewTournament from './new'
 
 describe('NewTournament', () => {
     it('renders a heading', () => {
-        render(<NewTournament availablePlayers={[]} />);
+        render(<NewTournament availablePlayers={[]}/>);
         const heading = screen.getByRole('heading', {
             name: /New Tournament/i
         })
@@ -16,7 +16,7 @@ describe('NewTournament', () => {
     })
 
     it('renders a button \"Create\"', () => {
-        render(<NewTournament availablePlayers={[]} />);
+        render(<NewTournament availablePlayers={[]}/>);
         const button = screen.getByRole('button', {
             name: /Create/i
         })
@@ -24,7 +24,7 @@ describe('NewTournament', () => {
     })
 
     it('renders, by default, a disabled button', () => {
-        render(<NewTournament availablePlayers={[]} />);
+        render(<NewTournament availablePlayers={[]}/>);
         const button = screen.getByRole('button', {
             name: /Create/i
         })

@@ -6,7 +6,7 @@ import {ApiResponse, createErrorResponse, createSuccessResponse} from "../../../
 
 export default async function setMatchWinner(req: NextApiRequest, res: NextApiResponse<ApiResponse>) {
     if (req.method !== 'POST') {
-        return res.status(405).json(createErrorResponse( "Method not allowed"));
+        return res.status(405).json(createErrorResponse("Method not allowed"));
     }
     try {
         const setWinner = req.body as SetMatchWinner

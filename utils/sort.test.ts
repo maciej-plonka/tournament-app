@@ -57,15 +57,15 @@ describe('sortBy', () => {
         const unsortedPeople = [
             {
                 name: 'Second name',
-                birth: { year: 1998 }
+                birth: {year: 1998}
             },
             {
                 name: 'First name',
-                birth: { year: 1994 }
+                birth: {year: 1994}
             },
             {
                 name: 'Third name',
-                birth: { year: 1997 }
+                birth: {year: 1997}
             },
         ]
 
@@ -74,15 +74,15 @@ describe('sortBy', () => {
         expect(sortedPeople).toStrictEqual([
             {
                 name: 'First name',
-                birth: { year: 1994 }
+                birth: {year: 1994}
             },
             {
                 name: 'Third name',
-                birth: { year: 1997 }
+                birth: {year: 1997}
             },
             {
                 name: 'Second name',
-                birth: { year: 1998 }
+                birth: {year: 1998}
             },
         ])
     })

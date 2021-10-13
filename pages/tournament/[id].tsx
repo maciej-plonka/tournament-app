@@ -1,7 +1,7 @@
 import {GetServerSideProps, NextPage} from "next";
 import {FullTournament, prepareFullTournament} from "../../server/fullTournament";
 import React from "react";
-import {MatchNode} from "../../components/MatchNode";
+import {MatchNode} from "@/components/MatchNode";
 import {MatchTreeContext} from "../../context/MatchTreeContext";
 
 export const getServerSideProps: GetServerSideProps<Props, { id: string }> = async (ctx) => {

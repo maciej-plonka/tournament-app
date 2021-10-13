@@ -28,7 +28,7 @@ describe('generateAvailableTeamSizes', () => {
     it('should return [1, 2] for 4 players', () => {
         const availableTeamSizes = generateAvailableTeamSizes(4);
 
-        expect(availableTeamSizes).toStrictEqual([1,2])
+        expect(availableTeamSizes).toStrictEqual([1, 2])
     })
 
     it('should return [ ] for 5 players', () => {
@@ -52,7 +52,7 @@ describe('generateAvailableTeamSizes', () => {
     it('should return [1, 2, 4] for 8 players', () => {
         const availableTeamSizes = generateAvailableTeamSizes(8);
 
-        expect(availableTeamSizes).toStrictEqual([1,2,4])
+        expect(availableTeamSizes).toStrictEqual([1, 2, 4])
     })
 
     it('should return [ ] for 9 players', () => {

@@ -25,7 +25,7 @@ interface FinalMultiSelectProps<T = ReadonlyArray<SelectOption>> extends MultiSe
 const getOptionLabel = (option: SelectOption) => option.label;
 const getOptionValue = (option: SelectOption) => option.id + '';
 
-export function MultiSelect({value, options, onChange, className = "", id, label , errors = []}: FinalMultiSelectProps) {
+export function MultiSelect({value, options, onChange, className = "", id, label, errors = []}: FinalMultiSelectProps) {
     const [search, setSearch] = useState('');
     const [open, setOpen] = useState(false);
 
@@ -48,7 +48,7 @@ export function MultiSelect({value, options, onChange, className = "", id, label
                 id={id ?? uuid}
                 isMulti
                 menuIsOpen={open}
-                className={"w-full " + className }
+                className={"w-full " + className}
                 options={filteredOptions}
                 getOptionLabel={getOptionLabel}
                 getOptionValue={getOptionValue}
@@ -58,8 +58,8 @@ export function MultiSelect({value, options, onChange, className = "", id, label
                 onMenuOpen={onMenuOpen}
                 value={value}
                 inputValue={search}/>
-            <InputError messages={errors} />
+            <InputError messages={errors}/>
         </>
 
-)
+    )
 }

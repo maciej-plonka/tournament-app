@@ -23,7 +23,7 @@ export function Input({id, value, onChange, errors = [], className = "", label}:
         (event: ChangeEvent<HTMLInputElement>) => onChange(event.target.value),
         [onChange]
     )
-    const errorStyles = useMemo(() => errors?.length > 0 ? "border-red-400" : "",[errors])
+    const errorStyles = useMemo(() => errors?.length > 0 ? "border-red-400" : "", [errors])
     return (
         <>
             <label htmlFor={finalId}>{label}</label>

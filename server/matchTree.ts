@@ -29,5 +29,5 @@ export function generateTree(matches: ReadonlyArray<MatchWithTeams>): MatchTreeN
     if (!finalMatch) {
         throw new Error(`final match not found inside ${matches}`)
     }
-    return  generateTreeNode(finalMatch, matches)
+    return generateTreeNode(finalMatch, matches)
 }

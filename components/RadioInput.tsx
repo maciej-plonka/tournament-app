@@ -17,14 +17,14 @@ interface FinalRadioInputProps extends RadioInputProps {
 }
 
 export function RadioInput({values, value, onChange, id, className = "", errors = [], label}: FinalRadioInputProps) {
-    const uuid = useMemo(() => uuidv4() ,[])
+    const uuid = useMemo(() => uuidv4(), [])
     const finalId = id ?? uuid
-    if(!values.length) {
+    if (!values.length) {
         return (<></>)
     }
     return (
         <>
-            <label htmlFor={finalId }>{label}</label>
+            <label htmlFor={finalId}>{label}</label>
             <div id={finalId} className={`${className} ${classes.wrapper}`}>
                 {values.map(it => (
                     <label key={`playersPerTeam_${it}`} className={prepareClasses(it === value)}>
@@ -39,7 +39,7 @@ export function RadioInput({values, value, onChange, id, className = "", errors 
                     </label>
                 ))}
             </div>
-            <InputError messages={errors} />
+            <InputError messages={errors}/>
         </>
 
     )
