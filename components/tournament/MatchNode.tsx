@@ -1,7 +1,19 @@
 import {MatchTreeNode} from "../../server/matchTree";
 import classes from "../../styles/MatchNode.module.css";
-import React, {useMemo} from "react";
+import React, {ReactNode, useMemo} from "react";
 import {useSetMatchWinner} from "@/components/tournament/TournamentTree";
+interface WinButtonProps {
+    onClick: () => void,
+    children: ReactNode
+}
+const  WinButton = (props: WinButtonProps)  => (
+    <button
+        className={"bg-green-500 px-2 py-1 text-white rounded"}
+        onClick={props.onClick}
+    >
+        {props.children}
+    </button>
+)
 
 export function MatchNode({node, level = 1}: { node: MatchTreeNode, level?: number }) {
     const {
@@ -11,7 +23,9 @@ export function MatchNode({node, level = 1}: { node: MatchTreeNode, level?: numb
         winnerId
     } = node
     const {setMatchWinner, isProcessing} = useSetMatchWinner()
-    const showActions = useMemo(() => !winnerId && !isProcessing, [winnerId, isProcessing])
+    const showActions = useMemo(() => !winnerId && !isProcessing && firstTeam && secondTeam,
+        [winnerId, isProcessing, firstTeam, secondTeam]
+    )
     return (
         <div className={classes.matchNode}>
             {!!node.previousMatches.length && (
@@ -25,17 +39,17 @@ export function MatchNode({node, level = 1}: { node: MatchTreeNode, level?: numb
                 <div className={`${classes.team} ${firstTeam && firstTeam?.id == winnerId ? classes.winner : ''}  `}>
                     <p>{firstTeam?.name ?? ""}</p>
                     {firstTeam && showActions && (
-                        <button onClick={() => setMatchWinner({matchId, teamId: firstTeam.id})}>
+                        <WinButton onClick={() => setMatchWinner({matchId, teamId: firstTeam.id})}>
                             Winner!
-                        </button>
+                        </WinButton>
                     )}
                 </div>
                 <div className={`${classes.team} ${secondTeam && secondTeam?.id == winnerId ? classes.winner : ''}  `}>
                     <p>{secondTeam?.name ?? ""}</p>
                     {secondTeam && showActions && (
-                        <button onClick={() => setMatchWinner({matchId, teamId: secondTeam.id})}>
+                        <WinButton onClick={() => setMatchWinner({matchId, teamId: secondTeam.id})}>
                             Winner!
-                        </button>
+                        </WinButton>
                     )}
                 </div>
             </div>
