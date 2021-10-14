@@ -49,8 +49,11 @@ export async function getAllMatchesWithParticipatingTeamsInTournament(tournament
             participants: {
                 include: {
                     team: true
+                },
+                orderBy: {
+                    id: 'asc'
                 }
             }
-        }
+        },
     })
 }
