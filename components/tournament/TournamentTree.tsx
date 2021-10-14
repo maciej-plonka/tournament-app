@@ -1,4 +1,4 @@
-import React, {createContext, useCallback, useContext, useEffect, useState} from "react";
+import React, {createContext, useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {MatchNode} from "./MatchNode";
 import {FullTournament} from "../../server/fullTournament";
 import {SetMatchWinner} from "../../shared/match/commands";
@@ -29,26 +29,20 @@ interface TournamentTreeProps {
 
 function useTournamentTree( ): TournamentContextParams {
     const [newMatchWinner, setNewMatchWinner] = useState<SetMatchWinner | undefined>()
-    const [isProcessing, setIsProcessing] = useState(false);
-
     useEffect(() => {
         if (!newMatchWinner) {
             return;
         }
-        setIsProcessing(true);
-        (async () => {
-
-            await fetch('/api/match/winner', {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(newMatchWinner)
-            })
-            window.location.reload();
-        })()
+        fetch('/api/match/winner', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newMatchWinner)
+        }).then(() => window.location.reload());
     }, [newMatchWinner])
 
+    const isProcessing = useMemo(() => !!newMatchWinner, [newMatchWinner])
     const setMatchWinner = useCallback((team: SetMatchWinner) => {
         !isProcessing && setNewMatchWinner(team)
     }, [isProcessing]);
