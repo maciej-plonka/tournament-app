@@ -1,36 +1,21 @@
-import {Match, Player, Team, Tournament} from "@prisma/client";
-import {createBatches} from "../utils/createBatches";
-import {randomizeArray} from "../utils/randomizeArray";
-import {sortByKey} from "../utils/sort";
-import {createMatch, createMatchParticipant, createTeam, createTeamMember, createTournament} from "./repository";
+import {Match, Team, Tournament} from "@prisma/client";
+import {createMatch, createMatchParticipant, createTournament} from "./repository";
 
-export async function createRandomTournament(title: string, players: ReadonlyArray<Player>, teamSize: number): Promise<Tournament> {
+export async function createRandomTournament(title: string, teams: Team[]): Promise<Tournament> {
     const savedTournament = await createTournament(title)
-    const lastMatches = await createMatchTree(savedTournament, players.length / teamSize)
-    const randomizedPlayers = randomizeArray(players)
-    const batchedPlayers = createBatches(randomizedPlayers, teamSize);
+    const lastMatches = await createMatchTree(savedTournament, teams.length)
 
     await Promise.all(lastMatches.map((match, index) => {
-        const teamOnePlayers = batchedPlayers[index * 2]
-        const teamTwoPlayers = batchedPlayers[index * 2 + 1]
-        return createTeamsAndAssignItToMatch(match, teamOnePlayers, teamTwoPlayers)
+        const teamOne = teams[index * 2];
+        const teamTwo = teams[index * 2 + 1];
+        return Promise.all([
+            createMatchParticipant(match.id, teamOne.id),
+            createMatchParticipant(match.id, teamTwo.id)
+        ])
     }))
     return savedTournament
 }
 
-async function createTeamsAndAssignItToMatch(match: Match, teamOnePlayers: ReadonlyArray<Player>, teamTwoPlayers: ReadonlyArray<Player>): Promise<any> {
-    return Promise.all([
-        createTeamForPlayers(teamOnePlayers).then(team => createMatchParticipant(match.id, team.id)),
-        createTeamForPlayers(teamTwoPlayers).then(team => createMatchParticipant(match.id, team.id)),
-    ])
-}
-
-async function createTeamForPlayers(players: ReadonlyArray<Player>): Promise<Team> {
-    const name = sortByKey(players, "id").map(it => it.name).join(' ');
-    const team = await createTeam(name);
-    await Promise.all(players.map(player => createTeamMember(team.id, player.id)));
-    return team;
-}
 
 const TEAM_PER_MATCH = 2;
 
