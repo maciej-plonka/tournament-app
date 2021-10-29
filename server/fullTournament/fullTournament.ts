@@ -1,14 +1,10 @@
-import {generateTree, MatchTreeNode, MatchWithTeams} from "./matchTree";
-import {getAllMatchesWithParticipatingTeamsInTournament, getTournamentById} from "./repository";
+import {generateTree} from "./generateTree";
+import {FullTournament, MatchWithTeams} from "./model";
+import {repository} from "../repository";
 
-export interface FullTournament {
-    id: number,
-    title: string,
-    finalMatch: MatchTreeNode
-}
 
 async function prepareMatchesWithTeams(tournamentId: number): Promise<ReadonlyArray<MatchWithTeams>> {
-    const matches = await getAllMatchesWithParticipatingTeamsInTournament(tournamentId)
+    const matches = await repository.getAllMatchesWithParticipatingTeamsInTournament(tournamentId)
     return matches.map(match => ({
         id: match.id,
         nextMatchId: match.nextMatchId,
@@ -19,7 +15,7 @@ async function prepareMatchesWithTeams(tournamentId: number): Promise<ReadonlyAr
 }
 
 export async function prepareFullTournament(tournamentId: number): Promise<FullTournament | undefined> {
-    const tournament = await getTournamentById(tournamentId);
+    const tournament = await repository.getTournamentById(tournamentId);
     if (!tournament) {
         return
     }

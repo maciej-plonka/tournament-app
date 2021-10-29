@@ -1,9 +1,9 @@
-import {createMatchParticipant, getMatchWithParticipantsById, saveMatchParticipant} from "./repository";
 import {SetMatchWinner} from "../shared/match/commands";
+import {repository} from "./repository";
 
 
 export async function setWinnerForMatch({matchId, teamId}: SetMatchWinner): Promise<any> {
-    const match = await getMatchWithParticipantsById(matchId)
+    const match = await repository.getMatchWithParticipantsById(matchId)
     if (!match) {
         throw new Error(`match with id: ${matchId} not found`)
     }
@@ -15,12 +15,12 @@ export async function setWinnerForMatch({matchId, teamId}: SetMatchWinner): Prom
     if (!winningParticipant) {
         throw new Error(`Winning team is not part of the match`)
     }
-    await saveMatchParticipant({
+    await repository.saveMatchParticipant({
         ...winningParticipant,
         winner: true
     })
 
     if (match.nextMatchId) {
-        await createMatchParticipant(match.nextMatchId, teamId);
+        await repository.createMatchParticipant(match.nextMatchId, teamId);
     }
 }

@@ -1,16 +1,16 @@
 import {Match, Team, Tournament} from "@prisma/client";
-import {createMatch, createMatchParticipant, createTournament} from "./repository";
+import {repository} from "../repository";
 
-export async function createRandomTournament(title: string, teams: Team[]): Promise<Tournament> {
-    const savedTournament = await createTournament(title)
+export async function createTournament(title: string, teams: Team[]): Promise<Tournament> {
+    const savedTournament = await repository.createTournament(title)
     const lastMatches = await createMatchTree(savedTournament, teams.length)
 
     await Promise.all(lastMatches.map((match, index) => {
         const teamOne = teams[index * 2];
         const teamTwo = teams[index * 2 + 1];
         return Promise.all([
-            createMatchParticipant(match.id, teamOne.id),
-            createMatchParticipant(match.id, teamTwo.id)
+            repository.createMatchParticipant(match.id, teamOne.id),
+            repository.createMatchParticipant(match.id, teamTwo.id)
         ])
     }))
     return savedTournament
@@ -27,7 +27,7 @@ async function createMatchTree(tournament: Tournament, teamCount: number): Promi
         const currentRowPromises: Promise<Match>[] = [];
         for (let matchNumber = 0; matchNumber < currentMatchesInRow; matchNumber++) {
             const nextMatchId = lastRow[Math.floor(matchNumber / TEAM_PER_MATCH)]?.id
-            currentRowPromises.push(createMatch(tournament.id, nextMatchId));
+            currentRowPromises.push(repository.createMatch(tournament.id, nextMatchId));
         }
         lastRow = await Promise.all(currentRowPromises)
         currentMatchesInRow *= TEAM_PER_MATCH;

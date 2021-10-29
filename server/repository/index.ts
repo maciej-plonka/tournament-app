@@ -1,3 +1,9 @@
-export * from "./tournament"
-export * from "./team"
-export * from "./match"
+import * as tournamentRepository from "./tournament"
+import * as teamRepository from "./team"
+import * as matchRepository from "./match"
+
+export const repository = {
+    ...tournamentRepository,
+    ...teamRepository,
+    ...matchRepository
+}

@@ -1,4 +1,4 @@
-import {MatchTreeNode} from "../../server/matchTree";
+import {MatchTreeNode} from "../../server/fullTournament";
 import classes from "../../styles/MatchNode.module.css";
 import React, {ReactNode, useMemo} from "react";
 import {useSetMatchWinner} from "@/components/tournament/TournamentTree";

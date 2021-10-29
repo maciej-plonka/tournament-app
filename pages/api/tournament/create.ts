@@ -1,9 +1,8 @@
 import {Player, Tournament} from "@prisma/client";
 import {NextApiRequest, NextApiResponse} from "next";
 import {isTitleValid, isValidNumberOfPlayers} from "../../../shared/tournament/validators";
-import {createRandomTournament} from "../../../server/createRandomTournament";
 import {ApiResponse, createErrorResponse, createSuccessResponse} from "../../../shared/apiResponse";
-import {createRandomTeams} from "../../../server/createRandomTeams";
+import {createRandomTournament} from "../../../server/randomTournament";
 
 interface CreateTournament {
     title: string,
@@ -21,8 +20,7 @@ export default async function createTournament(req: NextApiRequest, res: NextApi
         return res.status(400).json(createErrorResponse(validationError))
     }
     const {title, players, teamSize} = createTournament;
-    const teams = await createRandomTeams(players, teamSize);
-    const tournament = await createRandomTournament(title, teams)
+    const tournament = await createRandomTournament(title, players, teamSize);
     return res.status(200).json(createSuccessResponse(tournament))
 }
 
