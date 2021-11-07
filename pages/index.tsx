@@ -1,10 +1,11 @@
-import {Tournament} from '@prisma/client'
+import {PrismaClient, Tournament} from '@prisma/client'
 import type {GetServerSideProps, NextPage} from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
-import {repository} from "../server/repository";
+import {createRepository} from "../server/repository";
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
+    const repository = createRepository(new PrismaClient())
     return {
         props: {
             tournaments: await repository.getAllTournaments()

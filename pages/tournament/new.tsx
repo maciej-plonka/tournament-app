@@ -1,7 +1,6 @@
-import {Player, Tournament} from "@prisma/client";
+import {Player, PrismaClient, Tournament} from "@prisma/client";
 import {GetServerSideProps, NextPage} from "next";
 import {FormEvent, useCallback, useMemo, useState} from "react";
-import {prisma} from "../../server/repository/prisma";
 import axios from "axios";
 import {canGenerateAvailableTeamSizes, generateAvailableTeamSizes} from "../../shared/tournament/availableTeamSizes";
 import {useInput} from "../../hooks/useInput";
@@ -11,11 +10,15 @@ import {useTeamSizeRadioInput} from "../../hooks/useRadioInput";
 import {RadioInput} from "@/components/RadioInput";
 import {Input} from "@/components/Input";
 import {ApiResponse} from "../../shared/apiResponse";
+import {createRepository} from "../../server/repository";
+
 
 export const getServerSideProps: GetServerSideProps<NewTournamentProps> = async () => {
+    const repository = createRepository(new PrismaClient());
+    const availablePlayers = await repository.getAllPlayers()
     return {
         props: {
-            availablePlayers: await prisma.player.findMany()
+            availablePlayers
         }
     }
 }

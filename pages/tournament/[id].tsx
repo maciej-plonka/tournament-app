@@ -2,10 +2,13 @@ import {GetServerSideProps, NextPage} from "next";
 import {FullTournament, prepareFullTournament} from "../../server/fullTournament";
 import React from "react";
 import {TournamentTree} from "@/components/tournament";
+import {createRepository} from "../../server/repository";
+import {PrismaClient} from ".prisma/client";
 
 export const getServerSideProps: GetServerSideProps<Props, { id: string }> = async (ctx) => {
     const id = ctx?.params?.id ?? '';
-    const fullTournament = await prepareFullTournament(parseInt(id));
+    const repository = createRepository(new PrismaClient());
+    const fullTournament = await prepareFullTournament(repository, parseInt(id));
     if (!fullTournament) {
         return {notFound: true}
     }
@@ -26,7 +29,7 @@ const TournamentPage: NextPage<Props> = ({fullTournament}) => {
         <>
             <div>{fullTournament.id}</div>
             <div>{fullTournament.title}</div>
-            <TournamentTree tournament={fullTournament} />
+            <TournamentTree tournament={fullTournament}/>
         </>
 
     )

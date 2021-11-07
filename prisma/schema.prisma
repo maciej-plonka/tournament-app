@@ -20,10 +20,10 @@ model Match {
   id                Int                 @id @default(autoincrement())
   tournament        Tournament          @relation(fields: [tournamentId], references: [id])
   tournamentId      Int
-  nextMatch         Match?              @relation(fields: [nextMatchId], references: [id])
+  nextMatch         Match?              @relation(name: "MatchToMatch",fields: [nextMatchId], references: [id])
   nextMatchId       Int?
   participants      MatchParticipant[]
-  match             Match[]             @relation("MatchToMatch")
+  previousMatches   Match[]             @relation("MatchToMatch")
 }
 
 model MatchParticipant {

@@ -1,8 +1,9 @@
 import {SetMatchWinner} from "../shared/match/commands";
-import {repository} from "./repository";
+import {Repository} from "./repository";
 
 
-export async function setWinnerForMatch({matchId, teamId}: SetMatchWinner): Promise<any> {
+export async function setWinnerForMatch(repository: Repository, setMatchWinner: SetMatchWinner): Promise<any> {
+    const {matchId, teamId} = setMatchWinner
     const match = await repository.getMatchWithParticipantsById(matchId)
     if (!match) {
         throw new Error(`match with id: ${matchId} not found`)
@@ -15,7 +16,7 @@ export async function setWinnerForMatch({matchId, teamId}: SetMatchWinner): Prom
     if (!winningParticipant) {
         throw new Error(`Winning team is not part of the match`)
     }
-    await repository.saveMatchParticipant({
+    await repository.updateMatchParticipant({
         ...winningParticipant,
         winner: true
     })

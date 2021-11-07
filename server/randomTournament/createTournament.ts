@@ -1,9 +1,9 @@
 import {Match, Team, Tournament} from "@prisma/client";
-import {repository} from "../repository";
+import {Repository} from "../repository";
 
-export async function createTournament(title: string, teams: Team[]): Promise<Tournament> {
+export async function createTournament(repository: Repository, title: string, teams: Team[]): Promise<Tournament> {
     const savedTournament = await repository.createTournament(title)
-    const lastMatches = await createMatchTree(savedTournament, teams.length)
+    const lastMatches = await createMatchTree(repository, savedTournament, teams.length)
 
     await Promise.all(lastMatches.map((match, index) => {
         const teamOne = teams[index * 2];
@@ -19,7 +19,7 @@ export async function createTournament(title: string, teams: Team[]): Promise<To
 
 const TEAM_PER_MATCH = 2;
 
-async function createMatchTree(tournament: Tournament, teamCount: number): Promise<Match[]> {
+async function createMatchTree(repository: Repository, tournament: Tournament, teamCount: number): Promise<Match[]> {
     const targetMatchesInRow = Math.max(1, teamCount / TEAM_PER_MATCH);
     let currentMatchesInRow = 1;
     let lastRow: Match[] = [];

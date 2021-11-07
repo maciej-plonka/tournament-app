@@ -14,8 +14,11 @@ const  WinButton = (props: WinButtonProps)  => (
         {props.children}
     </button>
 )
-
-export function MatchNode({node, level = 1}: { node: MatchTreeNode, level?: number }) {
+interface MatchNodeProps {
+    node: MatchTreeNode,
+    level?: number
+}
+export function MatchNode({node, level = 1}: MatchNodeProps) {
     const {
         previousMatches,
         id: matchId,
