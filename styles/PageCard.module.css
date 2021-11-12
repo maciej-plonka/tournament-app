@@ -1,0 +1,7 @@
+.pageCard {
+    background: #1A2125;
+    width: 100%;
+    min-height: 50%;
+    max-width: 800px;
+    @apply p-6 rounded-2xl text-white
+}

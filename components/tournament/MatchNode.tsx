@@ -57,6 +57,5 @@ export function MatchNode({node, level = 1}: MatchNodeProps) {
                 </div>
             </div>
         </div>
-
     )
 }

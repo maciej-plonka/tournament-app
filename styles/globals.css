@@ -12,7 +12,3 @@ html, body, #__next {
 *, *::after, *::before {
     box-sizing: border-box;
 }
-
-
-.card {
-}
