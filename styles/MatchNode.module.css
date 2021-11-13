@@ -17,19 +17,31 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+
 }
 
 .team {
     border: 1px solid black;
     margin: 4px 0;
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
+    padding: 8px;
     overflow: hidden;
-    width: 150px;
+    min-width: 150px;
     min-height: 36px;
+    background: #244967;
+}
+
+.team * + * {
+    margin-left: 4px;
 }
 
 .team.winner {
-    @apply bg-green-400;
+    @apply bg-green-400 text-black;
+}
+
+.team.loser {
+    @apply bg-red-400 text-black;
 }

@@ -6,6 +6,7 @@ import Link from 'next/link'
 import React from 'react';
 import {createRepository} from "../server/repository";
 import {PageCard} from "@/components/PageCard";
+import {PageSeparator} from "@/components/PageSeparator";
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
     const repository = createRepository(new PrismaClient())
@@ -31,8 +32,8 @@ const Home: NextPage<Props> = ({tournaments}) => {
             </Head>
             <Page>
                 <PageCard>
-                    <h1 className="text-5xl mb-4">Tournaments</h1>
-                    <Spacer/>
+                    <h1 className="text-4xl mb-4">Tournaments</h1>
+                    <PageSeparator/>
                     <div className="flex flex-row">
                         <div className="flex flex-col flex-1">
                             <TournamentsList tournaments={tournaments}/>
@@ -72,7 +73,7 @@ const TournamentsList = (props: TournamentsListProps) => {
     )
 }
 
-const Spacer = () => (<div className="w-full h-1 bg-red-700 my-4"/>)
+
 
 
 export default Home
