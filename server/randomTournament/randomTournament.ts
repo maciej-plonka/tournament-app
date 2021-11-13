@@ -10,7 +10,9 @@ export type NewRandomTournament = {
 }
 
 export async function createRandomTournament(repository: Repository, newTournament: NewRandomTournament): Promise<Tournament> {
-    const {title, players, teamSize} = newTournament
-    const teams = await createRandomTeams(repository, players, teamSize);
-    return createTournament(repository, title, teams);
+    const teams = await createRandomTeams(repository, newTournament);
+    return createTournament(repository, {
+        title: newTournament.title,
+        teams
+    });
 }

@@ -1,7 +1,13 @@
-import {Match, Team, Tournament} from "@prisma/client";
-import {Repository} from "../repository";
+import type {Match, Team, Tournament} from "@prisma/client";
+import type {Repository} from "../repository";
 
-export async function createTournament(repository: Repository, title: string, teams: Team[]): Promise<Tournament> {
+export type NewTournament = {
+    title: string,
+    teams: ReadonlyArray<Team>
+}
+
+export async function createTournament(repository: Repository, newTournament: NewTournament): Promise<Tournament> {
+    const {title, teams} = newTournament
     const savedTournament = await repository.createTournament(title)
     const lastMatches = await createMatchTree(repository, savedTournament, teams.length)
 

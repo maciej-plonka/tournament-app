@@ -1,10 +1,16 @@
-import {Player, Team} from ".prisma/client";
+import type {Player, Team} from ".prisma/client";
 import {randomizeArray} from "../../utils/randomizeArray";
 import {createBatches} from "../../utils/createBatches";
 import {sortByKey} from "../../utils/sort";
-import {Repository} from "../repository";
+import type {Repository} from "../repository";
 
-export async function createRandomTeams(repository: Repository, players: ReadonlyArray<Player>, teamSize: number): Promise<Team[]> {
+type NewRandomTeams = {
+    players: ReadonlyArray<Player>,
+    teamSize: number
+}
+
+export async function createRandomTeams(repository: Repository, newRandomTeams: NewRandomTeams): Promise<Team[]> {
+    const {players, teamSize} = newRandomTeams
     const randomizedPlayers = randomizeArray(players)
     const batchedPlayers = createBatches(randomizedPlayers, teamSize);
     return Promise.all(batchedPlayers.map(players => createTeamForPlayers(repository, players)))
