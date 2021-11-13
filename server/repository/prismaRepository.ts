@@ -1,6 +1,6 @@
 import {Match, MatchParticipant, Player, PrismaClient, Team, TeamMember, Tournament} from ".prisma/client";
-import {Repository} from "./repository";
-import {MatchWithParticipants, MatchWithTeams} from "./model";
+import type {Repository} from "./repository";
+import type {MatchWithParticipants, MatchWithTeams} from "./model";
 
 class PrismaRepository implements Repository {
     constructor(private readonly prisma: PrismaClient) {

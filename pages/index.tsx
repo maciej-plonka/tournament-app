@@ -17,7 +17,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 }
 
 
-
 interface Props {
     tournaments: ReadonlyArray<Tournament>
 }
@@ -36,19 +35,10 @@ const Home: NextPage<Props> = ({tournaments}) => {
                     <Spacer/>
                     <div className="flex flex-row">
                         <div className="flex flex-col flex-1">
-
-                            <ul>
-                                {tournaments.map(it => (
-                                    <li key={it.id}>
-                                        <Link href={`/tournament/${it.id}`}>
-                                            {it.title}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
+                            <TournamentsList tournaments={tournaments}/>
                         </div>
                         <div className="flex flex-col">
-                            <Link href="/tournament/new" >
+                            <Link href="/tournament/new">
                                 <div className="px-3 py-2 bg-green-500 rounded-md cursor-pointer">
                                     Create tournament
                                 </div>
@@ -63,7 +53,26 @@ const Home: NextPage<Props> = ({tournaments}) => {
     )
 }
 
-const Spacer = () =>( <div className="w-full h-1 bg-red-700 my-4"/> )
+interface TournamentsListProps {
+    tournaments: ReadonlyArray<Tournament>
+}
+
+const TournamentsList = (props: TournamentsListProps) => {
+    const {tournaments} = props
+    return (
+        <ul>
+            {tournaments.map(it => (
+                <li key={it.id}>
+                    <Link href={`/tournament/${it.id}`}>
+                        {it.title}
+                    </Link>
+                </li>
+            ))}
+        </ul>
+    )
+}
+
+const Spacer = () => (<div className="w-full h-1 bg-red-700 my-4"/>)
 
 
 export default Home

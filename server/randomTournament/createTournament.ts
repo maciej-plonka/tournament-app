@@ -17,20 +17,19 @@ export async function createTournament(repository: Repository, title: string, te
 }
 
 
-const TEAM_PER_MATCH = 2;
+const TEAMS_PER_MATCH = 2;
 
 async function createMatchTree(repository: Repository, tournament: Tournament, teamCount: number): Promise<Match[]> {
-    const targetMatchesInRow = Math.max(1, teamCount / TEAM_PER_MATCH);
-    let currentMatchesInRow = 1;
+    const targetMatchesInRow = Math.max(1, teamCount / TEAMS_PER_MATCH);
     let lastRow: Match[] = [];
-    while (currentMatchesInRow <= targetMatchesInRow) {
+    for (let currentMatchesInRow = 1; currentMatchesInRow <= targetMatchesInRow; currentMatchesInRow *= TEAMS_PER_MATCH) {
         const currentRowPromises: Promise<Match>[] = [];
         for (let matchNumber = 0; matchNumber < currentMatchesInRow; matchNumber++) {
-            const nextMatchId = lastRow[Math.floor(matchNumber / TEAM_PER_MATCH)]?.id
+            const nextMatchIndex = Math.floor(matchNumber / TEAMS_PER_MATCH)
+            const nextMatchId = lastRow[nextMatchIndex]?.id
             currentRowPromises.push(repository.createMatch(tournament.id, nextMatchId));
         }
         lastRow = await Promise.all(currentRowPromises)
-        currentMatchesInRow *= TEAM_PER_MATCH;
     }
     return lastRow;
 
