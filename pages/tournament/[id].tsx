@@ -1,7 +1,7 @@
 import {GetServerSideProps, NextPage} from "next";
 import {FullTournament, prepareFullTournament} from "../../server/fullTournament";
 import React from "react";
-import {TournamentTree} from "@/components/tournament";
+import {TournamentTree} from "@/components/TournamentTree";
 import {createRepository} from "../../server/repository";
 import {PrismaClient} from ".prisma/client";
 import {Page} from "@/components/Page";

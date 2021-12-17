@@ -1,6 +1,6 @@
 import React, {ReactNode, useMemo} from 'react';
 import {Team} from ".prisma/client";
-import {useSetMatchWinner} from "@/components/tournament/TournamentTree";
+import {useSetMatchWinner} from "@/components/TournamentTree/TournamentTree";
 import classes from "../../styles/MatchNode.module.css";
 interface CurrentMatchProps {
     winnerId: number | null,

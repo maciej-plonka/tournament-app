@@ -102,6 +102,24 @@ class PrismaRepository implements Repository {
         return this.prisma.player.findMany()
     }
 
+    createPlayer(name: string, login: string, password: string): Promise<Player> {
+        return this.prisma.player.create({
+            data: {
+                name,
+                login,
+                password
+            }
+        })
+    }
+
+    findPlayerByLogin(login: string): Promise<Player | null> {
+        return this.prisma.player.findFirst({
+            where: {
+                login
+            }
+        })
+    }
+
 }
 
 export function createRepository(prisma: PrismaClient): Repository {

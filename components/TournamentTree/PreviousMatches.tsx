@@ -1,7 +1,7 @@
 import classes from "../../styles/MatchNode.module.css";
 import React from "react";
 import {MatchTreeNode} from "../../server/fullTournament";
-import {MatchNode} from "@/components/tournament/MatchNode";
+import {MatchNode} from "@/components/TournamentTree/MatchNode";
 
 interface PreviousMatchesProps {
     previousMatches: ReadonlyArray<MatchTreeNode>

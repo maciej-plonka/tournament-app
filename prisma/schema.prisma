@@ -54,4 +54,6 @@ model Player {
   id                Int                 @id @default(autoincrement())
   name              String
   teams             TeamMember[]
+  login             String
+  password          String
 }

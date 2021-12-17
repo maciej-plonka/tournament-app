@@ -1,0 +1,8 @@
+.navbar {
+    @apply w-full h-16 flex flex-row items-center p-4 justify-end;
+    background: #1A2125;
+}
+
+.navbar .navbar__button {
+    @apply px-3 py-2 bg-green-500 rounded-md cursor-pointer text-white;
+}

@@ -1,6 +1,6 @@
 import {MatchWithParticipants, MatchWithTeams} from "./model";
 import {Match, Player} from ".prisma/client";
-import {MatchParticipant, Team, TeamMember, Tournament} from "@prisma/client";
+import {MatchParticipant, Team, TeamMember, Tournament} from ".prisma/client";
 
 export interface Repository {
     getMatchWithParticipantsById(id: number): Promise<MatchWithParticipants | null>
@@ -24,5 +24,9 @@ export interface Repository {
     createTournament(title: string): Promise<Tournament>
 
     getAllPlayers(): Promise<ReadonlyArray<Player>>
+
+    createPlayer(name: string, login: string, password: string): Promise<Player>
+
+    findPlayerByLogin(login: string): Promise<Player | null>;
 }
 

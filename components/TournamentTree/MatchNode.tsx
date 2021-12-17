@@ -1,8 +1,8 @@
 import React from "react";
 import type {MatchTreeNode} from "../../server/fullTournament";
 import classes from "../../styles/MatchNode.module.css";
-import {CurrentMatch} from "@/components/tournament/CurrentMatch";
-import {PreviousMatches} from "@/components/tournament/PreviousMatches";
+import {CurrentMatch} from "@/components/TournamentTree/CurrentMatch";
+import {PreviousMatches} from "@/components/TournamentTree/PreviousMatches";
 
 
 interface MatchNodeProps {
