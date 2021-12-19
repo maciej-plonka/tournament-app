@@ -20,7 +20,7 @@ function useNewPlayer(): [(newPlayer: NewPlayer) => void, boolean] {
         let mounted = true;
         (async function postNewPlayer() {
             mounted && setLoading(true)
-            const result = await fetch('/api/player/register', {
+            await fetch('/api/player/register', {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
