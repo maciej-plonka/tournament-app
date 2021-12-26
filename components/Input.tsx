@@ -9,13 +9,14 @@ export interface InputProps {
 }
 
 interface FinalInputProps extends InputProps {
-    id?: string
+    id?: string,
+    name?: string,
     label?: string,
     className?: string
     type?: 'text' | 'password'
 }
 
-export function Input({id, value, onChange, errors = [], className = "", label, type = 'text'}: FinalInputProps) {
+export function Input({id, value, name, onChange, errors = [], className = "", label, type = 'text'}: FinalInputProps) {
     const uuid = useMemo(() => uuidv4(), []);
     const finalId = id ?? uuid
 
@@ -29,6 +30,7 @@ export function Input({id, value, onChange, errors = [], className = "", label, 
             <label htmlFor={finalId}>{label}</label>
             <input
                 id={finalId}
+                name={name}
                 value={value}
                 type={type}
                 onChange={handleOnChange}

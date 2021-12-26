@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {signIn, signOut, useSession} from "next-auth/react";
 import styles from "../../styles/NavBar.module.css"
 import {LoginButton} from "@/components/NavBar/LoginButton";

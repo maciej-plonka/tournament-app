@@ -5,8 +5,14 @@ import {PrismaClient} from "@prisma/client";
 import bcrypt from "bcrypt";
 
 const repository = createRepository(new PrismaClient())
+
+
 export default NextAuth({
     secret: process.env.AUTH_SECRET,
+    pages: {
+        signIn: '/player/login',
+        error: '/player/login'
+    },
     providers: [
         CredentialsProvider({
             type: "credentials",

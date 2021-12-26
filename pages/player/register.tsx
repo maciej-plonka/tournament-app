@@ -1,16 +1,17 @@
-import React, {FormEvent, useEffect, useMemo, useState} from 'react';
+import React, {FormEvent, useCallback, useEffect, useMemo, useState} from 'react';
 import Head from "next/head";
 import {Page} from "@/components/Page";
 import {PageCard} from "@/components/PageCard";
 import {useInput} from "../../hooks/useInput";
 import {Input} from "@/components/Input";
 import {NewPlayer} from "../../server/registerPlayer";
+import axios from "axios";
 
 interface RegisterProps {
 
 }
 
-function useNewPlayer(): [(newPlayer: NewPlayer) => void, boolean] {
+function useNewPlayer() {
     const [newPlayer, setNewPlayer] = useState<NewPlayer | undefined>()
     const [loading, setLoading] = useState(false)
     useEffect(() => {
@@ -20,38 +21,36 @@ function useNewPlayer(): [(newPlayer: NewPlayer) => void, boolean] {
         let mounted = true;
         (async function postNewPlayer() {
             mounted && setLoading(true)
-            await fetch('/api/player/register', {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newPlayer)
-            })
-            mounted && setLoading(false)
+            await axios.post('/api/player/register', newPlayer)
             mounted && setNewPlayer(undefined)
+            mounted && setLoading(false)
         })()
         return () => {
             mounted = false;
         }
     }, [newPlayer])
-    return [setNewPlayer, loading]
+    return {
+        registerPlayer: setNewPlayer,
+        loading
+    }
 }
 
 export default function RegisterPage(props: RegisterProps) {
     const [login, loginProps, loginErrors] = useInput('', loginValidators)
     const [name, nameProps, nameErrors] = useInput('', nameValidators)
     const [password, passwordProps, passwordErrors] = useInput('', passwordValidators)
-    const [uploadNewPlayer, loading] = useNewPlayer()
-    const hasErrors = useMemo(() => (loginErrors.length + passwordErrors.length + nameErrors.length) > 0,
+    const {registerPlayer, loading} = useNewPlayer()
+    const hasErrors = useMemo(
+        () => Boolean(loginErrors.length || passwordErrors.length || nameErrors.length),
         [loginErrors.length, passwordErrors.length, nameErrors.length])
 
-    function handleSubmit(event: FormEvent) {
+    const handleSubmit = useCallback((event: FormEvent) => {
         event.preventDefault();
         if (hasErrors) {
             return;
         }
-        uploadNewPlayer({login, name, password})
-    }
+        registerPlayer({login, name, password})
+    }, [hasErrors, login, name, password, registerPlayer])
 
     return (
         <>
